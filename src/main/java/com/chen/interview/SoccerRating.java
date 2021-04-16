@@ -116,13 +116,13 @@ public class SoccerRating
     		    if(! league.isFull())
     		    	league.setFull(); 
 
-                checkAndClear(league, dailyTeamNameSet, dailyTeamList);
+                    checkAndClear(league, dailyTeamNameSet, dailyTeamList);
 
-    			//print out the top K, here the K is 3. 
-    			System.out.println("Matchday " + matchDay++);
-                printTopKTeam(league, 3);
+    		    //print out the top K, here the K is 3. 
+    		    System.out.println("Matchday " + matchDay++);
+                    printTopKTeam(league, 3);
 
-    			System.out.println();
+    		    System.out.println();
 
     		    dailyTeamList.add(firstTeam);
     		    dailyTeamList.add(secondTeam);
