@@ -32,6 +32,22 @@ public class SoccerRating
 		return Integer.valueOf(strArr[strArr.length - 1]);
 	}
 
+    public static void checkAndClear(SoccerLeague league, Set<String> dailyTeamNameSet, List<SoccerTeam> dailyTeamList) {
+        if(league.isFull()) {
+            if(dailyTeamList.size() != league.getLeagueSize() 
+                        || dailyTeamNameSet.size() != league.getLeagueSize())
+                System.err.println("Each team should play exactly once each match day.");
+            }
+        dailyTeamNameSet.clear();
+        dailyTeamList.clear();
+    }
+
+    public static void printTopKTeam(SoccerLeague league, int k) {
+        List<SoccerTeam> todayResult = league.getTopKTeams(k); 
+        for(SoccerTeam st : todayResult)
+            System.out.println(st.toString());
+    }
+
     public static void main(String[] args) throws FileNotFoundException
     {
         if (args.length < 1) {
@@ -93,25 +109,19 @@ public class SoccerRating
     		//end of current match day
     		if(dailyTeamNameSet.contains(firstTeam.getTeamName())) {
   
+
     		    for(SoccerTeam st : dailyTeamList) {
     		    	league.addOrUpdateTeam(st);
     		    }
     		    if(! league.isFull())
     		    	league.setFull(); 
 
-      			if(league.isFull()) {
-    				if(dailyTeamList.size() != league.getLeagueSize() 
-    					|| dailyTeamNameSet.size() != league.getLeagueSize())
-    				System.err.println("Each team should play exactly once each match day.");
-    			}
-    		    dailyTeamNameSet.clear();
-    			dailyTeamList.clear();
+                checkAndClear(league, dailyTeamNameSet, dailyTeamList);
 
     			//print out the top K, here the K is 3. 
     			System.out.println("Matchday " + matchDay++);
-    			List<SoccerTeam> todayResult = league.getTopKTeams(3); 
-    			for(SoccerTeam st : todayResult)
-    				System.out.println(st.toString());
+                printTopKTeam(league, 3);
+
     			System.out.println();
 
     		    dailyTeamList.add(firstTeam);
@@ -130,18 +140,10 @@ public class SoccerRating
     		league.addOrUpdateTeam(st);
     	}	
 
-      	if(league.isFull()) {
-    		if(dailyTeamList.size() != league.getLeagueSize() 
-    					|| dailyTeamNameSet.size() != league.getLeagueSize())
-    			System.err.println("Each team should play exactly once each match day.");
-    		}
-    	dailyTeamNameSet.clear();
-    	dailyTeamList.clear();
+        checkAndClear(league, dailyTeamNameSet, dailyTeamList);
 
     	System.out.println("Matchday " + matchDay++);
-      	List<SoccerTeam> todayResult = league.getTopKTeams(3); 
-    	for(SoccerTeam st : todayResult)
-    		System.out.println(st.toString());
+        printTopKTeam(league, 3);
 
     	sc.close();
     }
